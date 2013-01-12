@@ -12,3 +12,11 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#if DEBUG
+#define DBLOG(x...)     NSLog(x)
+#define DBPRINT(x...)   printf(x)
+#else
+#define DBLOG(x...)
+#define DBPRINT(x...)
+#endif
