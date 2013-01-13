@@ -16,8 +16,11 @@ typedef NS_ENUM(NSInteger, LightModTheme) {
 @interface ThemedView : UIView
 
 @property (nonatomic, assign) LightModTheme currentTheme;
+@property (nonatomic, weak) UIButton *torchButton;
+@property (nonatomic, copy) NSString *torchButtonImageNameSuffix;
 
 - (void)toggleTheme;
+- (void)updateTorchButtonDisplay;
 
 /*
  *  Background gradient colors and locations
