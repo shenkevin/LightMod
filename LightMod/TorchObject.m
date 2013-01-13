@@ -51,8 +51,11 @@ NSString *kTorchLevel = @".torchLevel";
     if (torchOn) {
         [self.torchDevice setFlashMode:AVCaptureFlashModeOn];
         
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0) {
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0f) {
             float level = [[NSUserDefaults standardUserDefaults] floatForKey:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:kTorchLevel]];
+            if (level == 0.0f) {
+                level = 1.0f;
+            }
             [self.torchDevice setTorchModeOnWithLevel:level error:nil];
             
         }
@@ -85,11 +88,11 @@ NSString *kTorchLevel = @".torchLevel";
 
 - (void)setTorchLevel:(float)torchLevel {
 #if !TARGET_IPHONE_SIMULATOR 
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 6.0) {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 6.0f) {
         return;
     }
     
-    torchLevel = fmaxf(fminf(torchLevel, 1.0f), 0.0);
+    torchLevel = fmaxf(fminf(torchLevel, 1.0f), 0.1f);
     
     if ([self isTorchOn]) {
         [self.torchDevice lockForConfiguration:nil];
