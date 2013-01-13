@@ -80,7 +80,16 @@ NSString *kTorchLevel = @".torchLevel";
 
 - (float)torchLevel {
 #if !TARGET_IPHONE_SIMULATOR 
-    return self.torchDevice.torchLevel;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 6.0f) {
+        return self.torchDevice.torchLevel;
+    }
+    else {
+        float level = [[NSUserDefaults standardUserDefaults] floatForKey:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:kTorchLevel]];
+        if (level == 0.0f) {
+            level = 1.0f;
+        }
+        return level;
+    }
 #else
     return 0.0f;
 #endif
@@ -100,11 +109,9 @@ NSString *kTorchLevel = @".torchLevel";
         [self.torchDevice setTorchModeOnWithLevel:torchLevel error:nil];
         [self.torchDevice unlockForConfiguration];
     }
-    else {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setFloat:torchLevel forKey:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:kTorchLevel]];
-        [defaults synchronize];
-    }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setFloat:torchLevel forKey:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:kTorchLevel]];
+    [defaults synchronize];
 #endif
 }
 

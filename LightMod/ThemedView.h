@@ -15,25 +15,40 @@ typedef NS_ENUM(NSInteger, LightModTheme) {
 
 @interface ThemedView : UIView
 
+#pragma mark - Theme
+
 @property (nonatomic, assign) LightModTheme currentTheme;
-@property (nonatomic, weak) UIButton *torchButton;
+- (void)toggleTheme:(UITapGestureRecognizer *)recognizer;
+
+#pragma mark - Torch Button
+
+@property (nonatomic, strong) UIButton *torchButton;
 @property (nonatomic, copy) NSString *torchButtonImageNameSuffix;
 
-- (void)toggleTheme:(UITapGestureRecognizer *)recognizer;
 - (void)updateTorchButtonDisplay;
 
 /*
  *  Background gradient colors and locations
  */
-@property (nonatomic,strong) NSArray *gradientLocations;
-@property (nonatomic,strong) NSArray *gradientColors;
+@property (nonatomic, strong) NSArray *gradientLocations;
+@property (nonatomic, strong) NSArray *gradientColors;
 
 /*
  *  Torch button colors
  */
-@property (nonatomic, copy) UIColor *buttonBaseColor;
-@property (nonatomic, copy) UIColor *buttonTopColor;
-@property (nonatomic, copy) UIColor *buttonBottomColor;
-@property (nonatomic, copy) UIColor *buttonONColor;
+@property (nonatomic, strong) UIColor *buttonBaseColor;
+@property (nonatomic, strong) UIColor *buttonTopColor;
+@property (nonatomic, strong) UIColor *buttonBottomColor;
+@property (nonatomic, strong) UIColor *buttonONColor;
+
+#pragma mark - Brightness Slider
+
+@property (nonatomic, strong)   UISlider *brightnessSlider;
+@property (nonatomic, strong) UIColor *maximumTrackTintColor;
+@property (nonatomic, strong) UIColor *minimumTrackTintColor;
+@property (nonatomic, strong) UIColor *thumbTintColor;
+
+- (void)toggleBrightnessSliderDisplay:(UIGestureRecognizer *)recognizer;
+- (void)brightnessValueChanged:(UISlider *)slider;
 
 @end

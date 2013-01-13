@@ -20,11 +20,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    UITapGestureRecognizer *doubleTapsRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(toggleTheme:)];
-    doubleTapsRecognizer.numberOfTapsRequired = 2;
-    doubleTapsRecognizer.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:doubleTapsRecognizer];
-    
     [[(ThemedView *)self.view torchButton] addTarget:self action:@selector(toggleTorch) forControlEvents:UIControlEventTouchUpInside];
     [[NSNotificationCenter defaultCenter] addObserver:(ThemedView *)self.view selector:@selector(updateTorchButtonDisplay) name:UIApplicationDidBecomeActiveNotification object:nil];
 }

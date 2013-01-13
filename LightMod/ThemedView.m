@@ -13,27 +13,12 @@
 
 NSString *kCurrentTheme = @".currentTheme";
 
-- (id)initWithFrame:(CGRect)frame
-{
+UITapGestureRecognizer *doubleTapsRecognizer = nil;
+
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        _currentTheme = [defaults integerForKey:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:kCurrentTheme]];
-        switch (_currentTheme) {
-            case LightModThemeDark:
-                [self darkTheme];
-                break;
-            case LightModThemeLight:
-            default:
-                [self lightTheme];
-                break;
-        }
-        
-        _torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _torchButton.frame = CGRectMake(0.0f, 0.0f, 120.0f, 130.0f);
-        _torchButton.center = [[UIApplication sharedApplication].delegate window].center;
-        [self addSubview:_torchButton];
-        //[self updateTorchButtonDisplay];
+        [self setup];
     }
     return self;
 }
@@ -41,24 +26,57 @@ NSString *kCurrentTheme = @".currentTheme";
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        _currentTheme = [defaults boolForKey:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:kCurrentTheme]];
-        switch (_currentTheme) {
-            case LightModThemeDark:
-                [self darkTheme];
-                break;
-            case LightModThemeLight:
-            default:
-                [self lightTheme];
-                break;
-        }
-        _torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _torchButton.frame = CGRectMake(0.0f, 0.0f, 120.0f, 130.0f);
-        _torchButton.center = [[UIApplication sharedApplication].delegate window].center;
-        [self addSubview:_torchButton];
-        //[self updateTorchButtonDisplay];
+        [self setup];
     }
     return self;
+}
+
+- (void)setup {
+    // Theme
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    _currentTheme = [defaults boolForKey:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:kCurrentTheme]];
+    switch (_currentTheme) {
+        case LightModThemeDark:
+            [self darkTheme];
+            break;
+        case LightModThemeLight:
+        default:
+            [self lightTheme];
+            break;
+    }
+    
+    // Torch Button
+    _torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _torchButton.frame = CGRectMake(0.0f, 0.0f, 120.0f, 130.0f);
+    _torchButton.center = [[UIApplication sharedApplication].delegate window].center;
+    [self addSubview:_torchButton];
+    //[self updateTorchButtonDisplay];
+    UITapGestureRecognizer *doubleTapsRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleTheme:)];
+    doubleTapsRecognizer.numberOfTapsRequired = 2;
+    doubleTapsRecognizer.numberOfTouchesRequired = 1;
+    [self addGestureRecognizer:doubleTapsRecognizer];
+    
+    // Brightness Slider
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0f) {
+        self.brightnessSlider = [[UISlider alloc] init];
+        self.brightnessSlider.minimumValue = 0.1f;
+        self.brightnessSlider.maximumValue = 1.0f;
+        self.brightnessSlider.minimumValueImage = [UIImage imageNamed:@"icon_brightness-sm"];
+        self.brightnessSlider.maximumValueImage = [UIImage imageNamed:@"icon_brightness-lg"];
+        self.brightnessSlider.minimumTrackTintColor = self.minimumTrackTintColor;
+        self.brightnessSlider.maximumTrackTintColor = self.maximumTrackTintColor;
+        self.brightnessSlider.thumbTintColor = self.thumbTintColor;
+        [self.brightnessSlider addTarget:self action:@selector(brightnessValueChanged:) forControlEvents:UIControlEventValueChanged];
+        CGRect screenRect = [UIScreen mainScreen].bounds;
+        self.brightnessSlider.frame = CGRectMake(20.0f, screenRect.size.height - 60.0f, screenRect.size.width - 40.0f, 23.0f);
+        [self addSubview:self.brightnessSlider];
+        self.brightnessSlider.hidden = YES;
+        
+        UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleBrightnessSliderDisplay:)];
+        singleTapRecognizer.numberOfTapsRequired = 1;
+        singleTapRecognizer.numberOfTouchesRequired = 2;
+        [self addGestureRecognizer:singleTapRecognizer];
+    }
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -125,12 +143,19 @@ NSString *kCurrentTheme = @".currentTheme";
     free(components);
 }
 
-#pragma mark - Action Responder
+#pragma mark - IBActions
 
 - (void)toggleTheme:(UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:self.torchButton];
     if ([self.torchButton.layer containsPoint:location]) {
         return;
+    }
+    
+    if (self.brightnessSlider && self.brightnessSlider.hidden == NO) {
+        location = [recognizer locationInView:self.brightnessSlider];
+        if ([self.brightnessSlider.layer containsPoint:location]) {
+            return;
+        }
     }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -147,6 +172,33 @@ NSString *kCurrentTheme = @".currentTheme";
     
     [self setNeedsDisplay];
     [self updateTorchButtonDisplay];
+    
+    self.brightnessSlider.minimumTrackTintColor = self.minimumTrackTintColor;
+    self.brightnessSlider.maximumTrackTintColor = self.maximumTrackTintColor;
+    self.brightnessSlider.thumbTintColor = self.thumbTintColor;
+}
+
+- (void)toggleBrightnessSliderDisplay:(UIGestureRecognizer *)recognizer {
+    CGPoint location = [recognizer locationInView:self.torchButton];
+    if ([self.torchButton.layer containsPoint:location]) {
+        return;
+    }
+    
+    if (self.brightnessSlider.hidden == NO) {
+        location = [recognizer locationInView:self.brightnessSlider];
+        if ([self.brightnessSlider.layer containsPoint:location]) {
+            return;
+        }
+    }
+    
+    if (self.brightnessSlider.hidden == YES) {
+        self.brightnessSlider.value = [[TorchObject sharedInstance] torchLevel];
+    }
+    self.brightnessSlider.hidden = !self.brightnessSlider.hidden;
+}
+
+- (void)brightnessValueChanged:(UISlider *)slider {
+    [[TorchObject sharedInstance] setTorchLevel:slider.value];
 }
 
 #pragma mark - Torch Button
@@ -405,6 +457,10 @@ NSString *kCurrentTheme = @".currentTheme";
     self.buttonTopColor = topGradient;
     self.buttonBottomColor = bottomGradient;
     self.buttonONColor = [UIColor colorWithRed:0.086f green:0.706f blue:0.906f alpha:1.000f];
+    
+    self.minimumTrackTintColor = topGradient;
+    self.thumbTintColor = middleGradient;
+    self.maximumTrackTintColor = bottomGradient;
 }
 
 #pragma mark - LightModThemeDark
@@ -420,6 +476,10 @@ NSString *kCurrentTheme = @".currentTheme";
     self.buttonTopColor = topGradient;
     self.buttonBottomColor = bottomGradient;
     self.buttonONColor = [UIColor colorWithRed:0.110f green:0.820f blue:0.106f alpha:1.000f];
+    
+    self.minimumTrackTintColor = topGradient;
+    self.thumbTintColor = middleGradient;
+    self.maximumTrackTintColor = bottomGradient;
 }
 
 @end
