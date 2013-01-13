@@ -28,4 +28,12 @@ typedef NS_ENUM(NSInteger, LightModTheme) {
 @property (nonatomic,strong) NSArray *gradientLocations;
 @property (nonatomic,strong) NSArray *gradientColors;
 
+/*
+ *  Torch button colors
+ */
+@property (nonatomic, copy) UIColor *buttonBaseColor;
+@property (nonatomic, copy) UIColor *buttonTopColor;
+@property (nonatomic, copy) UIColor *buttonBottomColor;
+@property (nonatomic, copy) UIColor *buttonONColor;
+
 @end

@@ -166,29 +166,29 @@ NSString *kCurrentTheme = @".currentTheme";
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	//// Color Declarations
-	UIColor* baseColor = [UIColor colorWithRed: 0.335 green: 0.641 blue: 1 alpha: 1];
+	UIColor* baseColor = self.buttonBaseColor;//[UIColor colorWithRed: 0.335 green: 0.641 blue: 1 alpha: 1];
 	CGFloat baseColorRGBA[4];
 	[baseColor getRed: &baseColorRGBA[0] green: &baseColorRGBA[1] blue: &baseColorRGBA[2] alpha: &baseColorRGBA[3]];
 	
 	CGFloat baseColorHSBA[4];
 	[baseColor getHue: &baseColorHSBA[0] saturation: &baseColorHSBA[1] brightness: &baseColorHSBA[2] alpha: &baseColorHSBA[3]];
 	
-	UIColor* topColor = [UIColor colorWithRed: (baseColorRGBA[0] * 0.2 + 0.8) green: (baseColorRGBA[1] * 0.2 + 0.8) blue: (baseColorRGBA[2] * 0.2 + 0.8) alpha: (baseColorRGBA[3] * 0.2 + 0.8)];
+	UIColor* topColor = self.buttonTopColor;//[UIColor colorWithRed: (baseColorRGBA[0] * 0.2 + 0.8) green: (baseColorRGBA[1] * 0.2 + 0.8) blue: (baseColorRGBA[2] * 0.2 + 0.8) alpha: (baseColorRGBA[3] * 0.2 + 0.8)];
 	CGFloat topColorRGBA[4];
 	[topColor getRed: &topColorRGBA[0] green: &topColorRGBA[1] blue: &topColorRGBA[2] alpha: &topColorRGBA[3]];
 	
 	UIColor* topOutColor = [UIColor colorWithRed: (topColorRGBA[0] * 0 + 1) green: (topColorRGBA[1] * 0 + 1) blue: (topColorRGBA[2] * 0 + 1) alpha: (topColorRGBA[3] * 0 + 1)];
-	UIColor* bottomColor = [UIColor colorWithHue: baseColorHSBA[0] saturation: baseColorHSBA[1] brightness: 0.8 alpha: baseColorHSBA[3]];
+	UIColor* bottomColor = self.buttonBottomColor;//[UIColor colorWithHue: baseColorHSBA[0] saturation: baseColorHSBA[1] brightness: 0.8 alpha: baseColorHSBA[3]];
 	CGFloat bottomColorRGBA[4];
 	[bottomColor getRed: &bottomColorRGBA[0] green: &bottomColorRGBA[1] blue: &bottomColorRGBA[2] alpha: &bottomColorRGBA[3]];
 	
 	UIColor* bottomOutColor = [UIColor colorWithRed: (bottomColorRGBA[0] * 0.9) green: (bottomColorRGBA[1] * 0.9) blue: (bottomColorRGBA[2] * 0.9) alpha: (bottomColorRGBA[3] * 0.9 + 0.1)];
 	UIColor* symbolShadow = [UIColor colorWithRed: 0.496 green: 0.496 blue: 0.496 alpha: 1];
-	UIColor* symbolONColor = [UIColor colorWithRed: 0.798 green: 0.949 blue: 1 alpha: 1];
+	UIColor* symbolONColor = self.buttonONColor;//[UIColor colorWithRed: 0.798 green: 0.949 blue: 1 alpha: 1];
     
 	UIColor* smallShadowColor = [UIColor colorWithRed: 0.296 green: 0.296 blue: 0.296 alpha: 1];
 	UIColor* symbolOffShadowColor = [UIColor colorWithRed: 0 green: 0 blue: 0 alpha: 1];
-	UIColor* symbolOnHighColor = [UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 1];
+	UIColor* symbolOnHighColor = self.buttonONColor;//[UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 1];
     
 	//// Gradient Declarations
 	NSArray* buttonOutGradientColors = [NSArray arrayWithObjects:
@@ -395,6 +395,11 @@ NSString *kCurrentTheme = @".currentTheme";
     UIColor *bottomGradient = [UIColor colorWithRed:0.89f green:0.89f blue:0.92f alpha:1.00f];
     self.gradientColors = @[topGradient,middleGradient,bottomGradient];
     self.gradientLocations = @[ @0.0f, @0.57f, @1.0f];
+    
+    self.buttonBaseColor = middleGradient;
+    self.buttonTopColor = topGradient;
+    self.buttonBottomColor = bottomGradient;
+    self.buttonONColor = [UIColor colorWithRed:0.086f green:0.706f blue:0.906f alpha:1.000f];
 }
 
 #pragma mark - LightModThemeDark
@@ -405,6 +410,11 @@ NSString *kCurrentTheme = @".currentTheme";
     UIColor *bottomGradient = [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.00f];
     self.gradientColors = @[topGradient,middleGradient,bottomGradient];
     self.gradientLocations = @[ @0.0f, @0.57f, @1.0f];
+    
+    self.buttonBaseColor = middleGradient;
+    self.buttonTopColor = topGradient;
+    self.buttonBottomColor = bottomGradient;
+    self.buttonONColor = [UIColor colorWithRed:0.110f green:0.820f blue:0.106f alpha:1.000f];
 }
 
 @end
