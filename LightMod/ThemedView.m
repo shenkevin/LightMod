@@ -127,7 +127,12 @@ NSString *kCurrentTheme = @".currentTheme";
 
 #pragma mark - Action Responder
 
-- (void)toggleTheme {
+- (void)toggleTheme:(UITapGestureRecognizer *)recognizer {
+    CGPoint location = [recognizer locationInView:self.torchButton];
+    if ([self.torchButton.layer containsPoint:location]) {
+        return;
+    }
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (self.currentTheme == LightModThemeLight) {
         self.currentTheme = LightModThemeDark;

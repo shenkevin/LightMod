@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    UITapGestureRecognizer *doubleTapsRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(toggleTheme)];
+    UITapGestureRecognizer *doubleTapsRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(toggleTheme:)];
     doubleTapsRecognizer.numberOfTapsRequired = 2;
     doubleTapsRecognizer.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:doubleTapsRecognizer];

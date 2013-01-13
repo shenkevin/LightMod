@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, LightModTheme) {
 @property (nonatomic, weak) UIButton *torchButton;
 @property (nonatomic, copy) NSString *torchButtonImageNameSuffix;
 
-- (void)toggleTheme;
+- (void)toggleTheme:(UITapGestureRecognizer *)recognizer;
 - (void)updateTorchButtonDisplay;
 
 /*
