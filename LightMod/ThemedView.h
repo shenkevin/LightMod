@@ -43,12 +43,14 @@ typedef NS_ENUM(NSInteger, LightModTheme) {
 
 #pragma mark - Brightness Slider
 
-@property (nonatomic, strong)   UISlider *brightnessSlider;
+@property (nonatomic, strong) UIButton *brightnessToggleButton;
+
+@property (nonatomic, strong) UISlider *brightnessSlider;
 @property (nonatomic, strong) UIColor *maximumTrackTintColor;
 @property (nonatomic, strong) UIColor *minimumTrackTintColor;
 @property (nonatomic, strong) UIColor *thumbTintColor;
 
-- (void)toggleBrightnessSliderDisplay:(UIGestureRecognizer *)recognizer;
+- (void)toggleBrightnessSliderDisplay:(UIButton *)button;
 - (void)brightnessValueChanged:(UISlider *)slider;
 
 @end

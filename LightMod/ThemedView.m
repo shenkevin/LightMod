@@ -11,6 +11,9 @@
 
 @implementation ThemedView
 
+#define SLIDER_FINAL_FRAME      CGRectMake(20.0f, [UIScreen mainScreen].bounds.size.height - 60.0f, [UIScreen mainScreen].bounds.size.width - 84.0f, 23.0f)
+#define SLIDER_START_FRAME      CGRectMake(40.0f - [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 60.0f, [UIScreen mainScreen].bounds.size.width - 84.0f, 23.0f)
+
 NSString *kCurrentTheme = @".currentTheme";
 
 UITapGestureRecognizer *doubleTapsRecognizer = nil;
@@ -62,20 +65,19 @@ UITapGestureRecognizer *doubleTapsRecognizer = nil;
         self.brightnessSlider.minimumValue = 0.1f;
         self.brightnessSlider.maximumValue = 1.0f;
         self.brightnessSlider.minimumValueImage = [UIImage imageNamed:@"icon_brightness-sm"];
-        self.brightnessSlider.maximumValueImage = [UIImage imageNamed:@"icon_brightness-lg"];
+        //self.brightnessSlider.maximumValueImage = [UIImage imageNamed:@"icon_brightness-lg"];
         self.brightnessSlider.minimumTrackTintColor = self.minimumTrackTintColor;
         self.brightnessSlider.maximumTrackTintColor = self.maximumTrackTintColor;
         self.brightnessSlider.thumbTintColor = self.thumbTintColor;
         [self.brightnessSlider addTarget:self action:@selector(brightnessValueChanged:) forControlEvents:UIControlEventValueChanged];
-        CGRect screenRect = [UIScreen mainScreen].bounds;
-        self.brightnessSlider.frame = CGRectMake(20.0f, screenRect.size.height - 60.0f, screenRect.size.width - 40.0f, 23.0f);
-        [self addSubview:self.brightnessSlider];
         self.brightnessSlider.hidden = YES;
         
-        UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleBrightnessSliderDisplay:)];
-        singleTapRecognizer.numberOfTapsRequired = 1;
-        singleTapRecognizer.numberOfTouchesRequired = 2;
-        [self addGestureRecognizer:singleTapRecognizer];
+        CGRect screenRect = [UIScreen mainScreen].bounds;
+        self.brightnessToggleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.brightnessToggleButton.frame = CGRectMake(screenRect.size.width - 64.0f, screenRect.size.height - 70.0f, 44.0f, 44.0f);
+        [self.brightnessToggleButton setImage:[UIImage imageNamed:@"icon_brightness-lg"] forState:UIControlStateNormal];
+        [self.brightnessToggleButton addTarget:self action:@selector(toggleBrightnessSliderDisplay:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.brightnessToggleButton];
     }
 }
 
@@ -145,17 +147,33 @@ UITapGestureRecognizer *doubleTapsRecognizer = nil;
 
 #pragma mark - IBActions
 
-- (void)toggleTheme:(UITapGestureRecognizer *)recognizer {
+- (BOOL)shouldResponseToGesture:(UIGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:self.torchButton];
     if ([self.torchButton.layer containsPoint:location]) {
-        return;
+        return NO;
+    }
+    
+    if (self.brightnessToggleButton) {
+        location = [recognizer locationInView:self.brightnessToggleButton];
+        if ([self.brightnessToggleButton.layer containsPoint:location]) {
+            return NO;
+        }
     }
     
     if (self.brightnessSlider && self.brightnessSlider.hidden == NO) {
         location = [recognizer locationInView:self.brightnessSlider];
         if ([self.brightnessSlider.layer containsPoint:location]) {
-            return;
+            return NO;
         }
+    }
+    
+    return YES;
+}
+
+- (void)toggleTheme:(UITapGestureRecognizer *)recognizer {
+    
+    if ([self shouldResponseToGesture:recognizer] == NO) {
+        return;
     }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -178,23 +196,41 @@ UITapGestureRecognizer *doubleTapsRecognizer = nil;
     self.brightnessSlider.thumbTintColor = self.thumbTintColor;
 }
 
-- (void)toggleBrightnessSliderDisplay:(UIGestureRecognizer *)recognizer {
-    CGPoint location = [recognizer locationInView:self.torchButton];
-    if ([self.torchButton.layer containsPoint:location]) {
-        return;
-    }
-    
-    if (self.brightnessSlider.hidden == NO) {
-        location = [recognizer locationInView:self.brightnessSlider];
-        if ([self.brightnessSlider.layer containsPoint:location]) {
-            return;
-        }
-    }
+- (void)toggleBrightnessSliderDisplay:(UIButton *)button {
     
     if (self.brightnessSlider.hidden == YES) {
         self.brightnessSlider.value = [[TorchObject sharedInstance] torchLevel];
+        
+        self.brightnessSlider.hidden = NO;
+        self.brightnessSlider.alpha = 0.0f;
+        self.brightnessSlider.frame = SLIDER_START_FRAME;
+        [self addSubview:self.brightnessSlider];
+        
+        button.enabled = NO;
+        
+        [UIView animateWithDuration:0.5f
+                         animations:^(void){
+                             self.brightnessSlider.alpha = 1.0f;
+                             self.brightnessSlider.frame = SLIDER_FINAL_FRAME;
+                         }
+                         completion:^(BOOL finished) {
+                             button.enabled = YES;
+                         }];
     }
-    self.brightnessSlider.hidden = !self.brightnessSlider.hidden;
+    else {
+        button.enabled = NO;
+        
+        [UIView animateWithDuration:0.5f
+                         animations:^(void){
+                             self.brightnessSlider.alpha = 0.0f;
+                             self.brightnessSlider.frame = SLIDER_START_FRAME;
+                         }
+                         completion:^(BOOL finished) {
+                             self.brightnessSlider.hidden = YES;
+                             [self.brightnessSlider removeFromSuperview];
+                             button.enabled = YES;
+                         }];
+    }
 }
 
 - (void)brightnessValueChanged:(UISlider *)slider {
