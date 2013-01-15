@@ -209,11 +209,17 @@ UITapGestureRecognizer *doubleTapsRecognizer = nil;
         button.enabled = NO;
         
         [UIView animateWithDuration:0.5f
+                              delay:0.0f
+                            options:UIViewAnimationCurveEaseOut
                          animations:^(void){
                              self.brightnessSlider.alpha = 1.0f;
                              self.brightnessSlider.frame = SLIDER_FINAL_FRAME;
+                             
+                             button.transform = CGAffineTransformScale(button.transform, 1.5f, 1.5f);
+                             button.transform = CGAffineTransformRotate(button.transform, 360.0f);
                          }
                          completion:^(BOOL finished) {
+                             button.transform = CGAffineTransformIdentity;
                              button.enabled = YES;
                          }];
     }
@@ -221,13 +227,20 @@ UITapGestureRecognizer *doubleTapsRecognizer = nil;
         button.enabled = NO;
         
         [UIView animateWithDuration:0.5f
+                              delay:0.0f
+                            options:UIViewAnimationCurveEaseOut
                          animations:^(void){
                              self.brightnessSlider.alpha = 0.0f;
                              self.brightnessSlider.frame = SLIDER_START_FRAME;
+                             
+                             button.transform = CGAffineTransformScale(button.transform, 1.5f, 1.5f);
+                             button.transform = CGAffineTransformRotate(button.transform, -360.0f);
                          }
                          completion:^(BOOL finished) {
                              self.brightnessSlider.hidden = YES;
                              [self.brightnessSlider removeFromSuperview];
+                             
+                             button.transform = CGAffineTransformIdentity;
                              button.enabled = YES;
                          }];
     }
