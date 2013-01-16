@@ -7,12 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F4103B216A284B300530222 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103B116A284B300530222 /* Icon-72.png */; };
-		1F4103B516A284BB00530222 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103B416A284BB00530222 /* Icon-72@2x.png */; };
 		1F4103B716A284CF00530222 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103B616A284CF00530222 /* Icon.png */; };
 		1F4103B916A284D200530222 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103B816A284D100530222 /* Icon@2x.png */; };
-		1F4103C016A2878E00530222 /* Icon_beta-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103BC16A2878E00530222 /* Icon_beta-72.png */; };
-		1F4103C116A2878E00530222 /* Icon_beta-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103BD16A2878E00530222 /* Icon_beta-72@2x.png */; };
 		1F4103C216A2878E00530222 /* Icon_beta.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103BE16A2878E00530222 /* Icon_beta.png */; };
 		1F4103C316A2878E00530222 /* Icon_beta@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103BF16A2878E00530222 /* Icon_beta@2x.png */; };
 		1F4103CA16A288C800530222 /* icon_brightness-lg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4103C616A288C800530222 /* icon_brightness-lg@2x.png */; };
@@ -35,12 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F4103B116A284B300530222 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
-		1F4103B416A284BB00530222 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		1F4103B616A284CF00530222 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		1F4103B816A284D100530222 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		1F4103BC16A2878E00530222 /* Icon_beta-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon_beta-72.png"; sourceTree = "<group>"; };
-		1F4103BD16A2878E00530222 /* Icon_beta-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon_beta-72@2x.png"; sourceTree = "<group>"; };
 		1F4103BE16A2878E00530222 /* Icon_beta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_beta.png; sourceTree = "<group>"; };
 		1F4103BF16A2878E00530222 /* Icon_beta@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon_beta@2x.png"; sourceTree = "<group>"; };
 		1F4103C616A288C800530222 /* icon_brightness-lg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_brightness-lg@2x.png"; sourceTree = "<group>"; };
@@ -102,10 +94,6 @@
 			children = (
 				1F4103B816A284D100530222 /* Icon@2x.png */,
 				1F4103B616A284CF00530222 /* Icon.png */,
-				1F4103B416A284BB00530222 /* Icon-72@2x.png */,
-				1F4103B116A284B300530222 /* Icon-72.png */,
-				1F4103BC16A2878E00530222 /* Icon_beta-72.png */,
-				1F4103BD16A2878E00530222 /* Icon_beta-72@2x.png */,
 				1F4103BE16A2878E00530222 /* Icon_beta.png */,
 				1F4103BF16A2878E00530222 /* Icon_beta@2x.png */,
 			);
@@ -254,12 +242,8 @@
 				1F5EB25016A1A575006C939C /* InfoPlist.strings in Resources */,
 				1F5EB25F16A1A576006C939C /* MainStoryboard_iPhone.storyboard in Resources */,
 				1F5EB26216A1A576006C939C /* MainStoryboard_iPad.storyboard in Resources */,
-				1F4103B216A284B300530222 /* Icon-72.png in Resources */,
-				1F4103B516A284BB00530222 /* Icon-72@2x.png in Resources */,
 				1F4103B716A284CF00530222 /* Icon.png in Resources */,
 				1F4103B916A284D200530222 /* Icon@2x.png in Resources */,
-				1F4103C016A2878E00530222 /* Icon_beta-72.png in Resources */,
-				1F4103C116A2878E00530222 /* Icon_beta-72@2x.png in Resources */,
 				1F4103C216A2878E00530222 /* Icon_beta.png in Resources */,
 				1F4103C316A2878E00530222 /* Icon_beta@2x.png in Resources */,
 				1F4103CA16A288C800530222 /* icon_brightness-lg@2x.png in Resources */,

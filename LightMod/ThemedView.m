@@ -215,8 +215,8 @@ UITapGestureRecognizer *doubleTapsRecognizer = nil;
                              self.brightnessSlider.alpha = 1.0f;
                              self.brightnessSlider.frame = SLIDER_FINAL_FRAME;
                              
-                             button.transform = CGAffineTransformScale(button.transform, 1.5f, 1.5f);
-                             button.transform = CGAffineTransformRotate(button.transform, 360.0f);
+                             button.transform = CGAffineTransformScale(button.transform, 0.8f, 0.8f);
+                             button.transform = CGAffineTransformRotate(button.transform, -180.0f);
                          }
                          completion:^(BOOL finished) {
                              button.transform = CGAffineTransformIdentity;
@@ -233,8 +233,8 @@ UITapGestureRecognizer *doubleTapsRecognizer = nil;
                              self.brightnessSlider.alpha = 0.0f;
                              self.brightnessSlider.frame = SLIDER_START_FRAME;
                              
-                             button.transform = CGAffineTransformScale(button.transform, 1.5f, 1.5f);
-                             button.transform = CGAffineTransformRotate(button.transform, -360.0f);
+                             button.transform = CGAffineTransformScale(button.transform, 0.8f, 0.8f);
+                             button.transform = CGAffineTransformRotate(button.transform, 180.0f);
                          }
                          completion:^(BOOL finished) {
                              self.brightnessSlider.hidden = YES;

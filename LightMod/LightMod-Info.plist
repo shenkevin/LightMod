@@ -14,8 +14,6 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>Icon${ICON_NAME_SUFFIX}-72.png</string>
-				<string>Icon${ICON_NAME_SUFFIX}-72@2x.png</string>
 				<string>Icon${ICON_NAME_SUFFIX}.png</string>
 				<string>Icon${ICON_NAME_SUFFIX}@2x.png</string>
 			</array>
